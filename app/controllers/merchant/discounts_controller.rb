@@ -38,7 +38,7 @@ class Merchant::DiscountsController < Merchant::BaseController
 
   def destroy
     @discount.destroy
-    redirect_to discounts_url, notice: 'Discount was successfully destroyed.'
+    redirect_to merchant_discounts_url, notice: 'Discount was successfully destroyed.'
   end
 
   private
@@ -47,7 +47,7 @@ class Merchant::DiscountsController < Merchant::BaseController
     end
 
     def set_merchant
-      @merchant = current_user.merchant
+      @merchant = Merchant.find(current_user.merchant.id)
     end
 
     def discount_params
