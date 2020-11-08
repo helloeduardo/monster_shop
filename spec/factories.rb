@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :discount do
-    rate { 1.5 }
-    quantity { 1 }
+    rate { rand * 100 }
+    quantity { rand(1..10) }
     merchant
   end
 
@@ -17,6 +17,16 @@ FactoryBot.define do
     factory :merchant_employee do
       role { 1 }
       merchant
+
+      trait :with_discounts do
+        transient do
+          discounts { 3 }
+        end
+
+        after :create do |user, evaluator|
+          create_list(:discount, evaluator.discounts, merchant: user.merchant)
+        end
+      end
     end
   end
 
@@ -26,5 +36,21 @@ FactoryBot.define do
     city { Faker::Address.city }
     state { Faker::Address.state_abbr }
     zip { Faker::Address.zip }
+
+    trait :with_employee do
+      after :create do |merchant|
+        create(:merchant_employee, merchant: merchant)
+      end
+    end
+
+    trait :with_discounts do
+      transient do
+        discounts { 3 }
+      end
+
+      after :create do |merchant, evaluator|
+        create_list(:discount, evaluator.discounts, merchant: merchant)
+      end
+    end
   end
 end
