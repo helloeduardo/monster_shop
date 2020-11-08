@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rate:</strong>
+  <%= number_to_percentage(@discount.rate, precision: 1) %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @discount.quantity %>
+</p>
+
+<p>
+  <strong>Merchant:</strong>
+  <%= @discount.merchant.name %>
+</p>
+
+<%= link_to 'Edit', edit_merchant_discount_path(@discount) %> |
+<%= link_to 'Delete', merchant_discount_path(@discount), method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', merchant_discounts_path %>
