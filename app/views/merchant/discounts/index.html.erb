@@ -14,8 +14,8 @@
   <tbody>
     <% @discounts.each do |discount| %>
       <tr id="discount-<%= discount.id %>">
-        <td><%= number_to_percentage(discount.rate, precision: 1) %></td>
-        <td><%= discount.quantity %></td>
+        <td><%= number_to_percentage(discount.rate, precision: 1) %> discount</td>
+        <td>on <%= discount.quantity %> or more items</td>
         <td><%= link_to 'Show', merchant_discount_path(discount) %></td>
         <td><%= link_to 'Edit', edit_merchant_discount_path(discount) %></td>
         <td><%= link_to 'Delete', merchant_discount_path(discount), method: :delete, data: { confirm: 'Are you sure?' } %></td>
