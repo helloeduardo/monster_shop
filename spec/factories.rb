@@ -52,5 +52,24 @@ FactoryBot.define do
         create_list(:discount, evaluator.discounts, merchant: merchant)
       end
     end
+
+    trait :with_items do
+      transient do
+        items { 3 }
+      end
+
+      after :create do |merchant, evaluator|
+        create_list(:item, evaluator.items, merchant: merchant)
+      end
+    end
+  end
+
+  factory :item do
+    name { Faker::Commerce.product_name }
+    description { Faker::Lorem.sentence }
+    price { Faker::Commerce.price }
+    image { 'https://placeimg.com/640/480/animals' }
+    inventory { rand(10..50) }
+    merchant
   end
 end
