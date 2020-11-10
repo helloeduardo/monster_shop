@@ -9,11 +9,12 @@ RSpec.describe 'Create Order' do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+
+      @discount_1 = create(:discount, rate: 10, quantity: 2, merchant: @brian)
+
       @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan@example.com', password: 'securepassword')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-    end
 
-    it 'I can click a link to get to create an order' do
       visit item_path(@ogre)
       click_button 'Add to Cart'
       visit item_path(@hippo)
@@ -22,7 +23,9 @@ RSpec.describe 'Create Order' do
       click_button 'Add to Cart'
 
       visit '/cart'
+    end
 
+    it 'I can click a link to get to create an order' do
       click_button 'Check Out'
 
       order = Order.last
@@ -34,6 +37,22 @@ RSpec.describe 'Create Order' do
       within "#order-#{order.id}" do
         expect(page).to have_link(order.id)
       end
+    end
+
+    it "I can create an order with discounts, and see on the order show page" do
+      click_button 'Check Out'
+
+      order = Order.last
+
+      within "#order-#{order.id}" do
+        click_link order.id
+      end
+
+      expect(current_path).to eq("/profile/orders/#{order.id}")
+
+      expect(page).to have_link("Hippo")
+      expect(page).to have_content("Price: $45.00")
+      expect(page).to_not have_content("Price: $50.00")
     end
   end
 
