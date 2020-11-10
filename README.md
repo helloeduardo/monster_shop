@@ -1,5 +1,4 @@
-# <div align="center">  Monster Shop 2008
-
+# <div align="center">  Monster Shop
 
 ![Name of image](https://image.shutterstock.com/image-vector/cartoon-furry-monster-halloween-vector-260nw-1197171505.jpg)
 
@@ -13,7 +12,7 @@
    ![](https://img.shields.io/badge/Rails-5.2.4-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)    ![](https://img.shields.io/badge/Code-HTML-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/Code-CSS-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
 
 ## Instructions
-This application is hosted on [Heroku](https://infinite-depths-29009.herokuapp.com/), where you'll be able to view its functionality to the fullest.
+This application is hosted on [Heroku](https://turing-monster-shop.herokuapp.com), where you'll be able to view its functionality to the fullest.
 
 For usage on your local machine follow the instructions listed below:
 ```
