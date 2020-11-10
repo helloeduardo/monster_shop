@@ -1,4 +1,6 @@
 class Item < ApplicationRecord
+  attr_reader :discount
+
   belongs_to :merchant
   has_many :order_items
   has_many :orders, through: :order_items
@@ -32,10 +34,10 @@ class Item < ApplicationRecord
   end
 
   def eligible_discount(quantity)
-    discounts.where('quantity <= ?', quantity).order(:rate).last
+    @discount = discounts.where('quantity <= ?', quantity).order(:rate).last
   end
 
   def adjusted_price
-
+    price * (1 - (@discount.rate / 100))
   end
 end
