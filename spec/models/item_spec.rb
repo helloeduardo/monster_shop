@@ -27,6 +27,10 @@ RSpec.describe Item do
       @review_3 = @ogre.reviews.create(title: 'EW', description: 'This Ogre is Ew', rating: 1)
       @review_4 = @ogre.reviews.create(title: 'So So', description: 'This Ogre is So so', rating: 2)
       @review_5 = @ogre.reviews.create(title: 'Okay', description: 'This Ogre is Okay', rating: 4)
+
+      @discount_1 = create(:discount, rate: 10, quantity: 2, merchant: @megan)
+      @discount_2 = create(:discount, rate: 15, quantity: 3, merchant: @megan)
+      @discount_3 = create(:discount, rate: 20, quantity: 3, merchant: @megan)
     end
 
     it '.sorted_reviews()' do
@@ -37,6 +41,19 @@ RSpec.describe Item do
 
     it '.average_rating' do
       expect(@ogre.average_rating.round(2)).to eq(3.00)
+    end
+
+    it '.eligible_discount' do
+      expect(@ogre.eligible_discount(1)).to eq(nil)
+      expect(@ogre.eligible_discount(2)).to eq(@discount_1)
+      expect(@ogre.eligible_discount(3)).to_not eq(@discount_2)
+      expect(@ogre.eligible_discount(3)).to eq(@discount_3)
+    end
+
+    it '.adjusted_price' do
+      expect(@ogre.eligible_discount(2)).to eq(@discount_1)
+      expect(@ogre.adjusted_price).to eq(18)
+      expect(@ogre.adjusted_price).to_not eq(@ogre.price)
     end
   end
 
