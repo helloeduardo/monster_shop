@@ -2,7 +2,8 @@
 <% if cart.items.empty? %>
   <p>Your Cart is Empty!</p>
 <% else %>
-<h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
+<h3>Subtotal: <%= number_to_currency(cart.subtotal) %></h3>
+<h3>Grand Total: <%= number_to_currency(cart.grand_total) %></h3>
   <% cart.items.each do |item| %>
     <section id='item-<%= item.id%>'>
       <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
@@ -10,8 +11,10 @@
       <p>Price: <%= number_to_currency(item.price) %></p>
       <p>Quantity: <%= cart.count_of(item.id) %></p>
       <p>Subtotal: <%= number_to_currency(cart.subtotal_of(item.id)) %></p>
-      <% if discount = item.eligible_discount(cart.count_of(item.id)) %>
-        <p>Discount Applied: <%= number_to_percentage(discount.rate, precision: 1) %> discount on <%= discount.quantity %> or more items</p>
+      <% if item.eligible_discount(cart.count_of(item.id)) %>
+        <p>Discount Applied: <%= number_to_percentage(item.discount.rate, precision: 1) %> discount on <%= item.discount.quantity %> or more items</p>
+        <p>Adjusted Item Price: <%= number_to_currency(item.adjusted_price) %></p>
+        <p>Discounted Subtotal: <%= number_to_currency(cart.discounted_subtotal_of(item)) %></p>
       <% end %>
       <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
       <%= button_to 'More of This!', "/cart/more/#{item.id}", method: :patch unless cart.limit_reached?(item.id) %>
