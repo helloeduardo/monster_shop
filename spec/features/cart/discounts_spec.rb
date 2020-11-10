@@ -34,6 +34,8 @@ RSpec.describe "Cart Discounts" do
 
         within "#item-#{@merchant_1.items.first.id}" do
           expect(page).to have_content("Discount Applied: #{number_to_percentage(@discount_1.rate, precision: 1)} discount on #{@discount_1.quantity} or more items")
+          expect(page).to have_content("Adjusted Item Price: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_1.rate / 100)))}")
+          expect(page).to have_content("Discounted Subtotal: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_1.rate / 100)) * 2)}")
         end
       end
 
@@ -42,6 +44,8 @@ RSpec.describe "Cart Discounts" do
 
         within "#item-#{@merchant_1.items.second.id}" do
           expect(page).to_not have_content("Discount Applied: ")
+          expect(page).to_not have_content("Adjusted Item Price: ")
+          expect(page).to_not have_content("Discounted Subtotal: ")
         end
       end
 
@@ -50,10 +54,14 @@ RSpec.describe "Cart Discounts" do
 
         within "#item-#{@merchant_2.items.first.id}" do
           expect(page).to_not have_content("Discount Applied: ")
+          expect(page).to_not have_content("Adjusted Item Price: ")
+          expect(page).to_not have_content("Discounted Subtotal: ")
         end
 
         within "#item-#{@merchant_2.items.second.id}" do
           expect(page).to_not have_content("Discount Applied: ")
+          expect(page).to_not have_content("Adjusted Item Price: ")
+          expect(page).to_not have_content("Discounted Subtotal: ")
         end
       end
 
@@ -67,6 +75,8 @@ RSpec.describe "Cart Discounts" do
 
           within "#item-#{@merchant_1.items.first.id}" do
             expect(page).to have_content("Discount Applied: #{number_to_percentage(@discount_2.rate, precision: 1)} discount on #{@discount_2.quantity} or more items")
+            expect(page).to have_content("Adjusted Item Price: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_2.rate / 100)))}")
+            expect(page).to have_content("Discounted Subtotal: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_2.rate / 100)) * 2)}")
           end
         end
 
@@ -75,6 +85,8 @@ RSpec.describe "Cart Discounts" do
 
           within "#item-#{@merchant_1.items.first.id}" do
             expect(page).to_not have_content("Discount Applied: #{number_to_percentage(@discount_1.rate, precision: 1)} discount on #{@discount_1.quantity} or more items")
+            expect(page).to_not have_content("Adjusted Item Price: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_1.rate / 100)))}")
+            expect(page).to_not have_content("Discounted Subtotal: #{number_to_currency(@merchant_1.items.first.price * (1 - (@discount_1.rate / 100)) * 2)}")
           end
         end
       end
@@ -91,6 +103,8 @@ RSpec.describe "Cart Discounts" do
 
         within "#item-#{@merchant_1.items.second.id}" do
           expect(page).to_not have_content("Discount Applied: ")
+          expect(page).to_not have_content("Adjusted Item Price: ")
+          expect(page).to_not have_content("Discounted Subtotal: ")
         end
       end
 
@@ -104,10 +118,14 @@ RSpec.describe "Cart Discounts" do
 
           within "#item-#{@merchant_1.items.first.id}" do
             expect(page).to_not have_content("Discount Applied: ")
+            expect(page).to_not have_content("Adjusted Item Price: ")
+            expect(page).to_not have_content("Discounted Subtotal: ")
           end
 
           within "#item-#{@merchant_1.items.second.id}" do
             expect(page).to_not have_content("Discount Applied: ")
+            expect(page).to_not have_content("Adjusted Item Price: ")
+            expect(page).to_not have_content("Discounted Subtotal: ")
           end
         end
       end
