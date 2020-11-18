@@ -27,11 +27,18 @@ Rails.application.routes.draw do
   patch 'reviews/:id', to: 'reviews#update'
   delete 'reviews/:id', to: 'reviews#destroy', as: :review
 
-  get '/cart', to: 'cart#show'
-  post '/cart/:item_id', to: 'cart#add_item'
-  delete '/cart', to: 'cart#empty'
-  patch '/cart/:change/:item_id', to: 'cart#update_quantity'
-  delete '/cart/:item_id', to: 'cart#remove_item'
+  # get '/cart', to: 'cart#show'
+  # post '/cart/:item_id', to: 'cart#add_item'
+  # delete '/cart', to: 'cart#empty'
+  # patch '/cart/:change/:item_id', to: 'cart#update_quantity'
+  # delete '/cart/:item_id', to: 'cart#remove_item'
+  scope :cart do
+    get '/', to: 'cart#show', as: :cart
+    post '/:item_id', to: 'cart#add_item'
+    delete '/', to: 'cart#empty'
+    patch '/:change/:item_id', to: 'cart#update_quantity'
+    delete '/:item_id', to: 'cart#remove_item'
+  end
 
   get '/registration', to: 'users#new', as: :registration
   resources :users, only: [:create, :update]
