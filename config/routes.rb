@@ -79,13 +79,29 @@ Rails.application.routes.draw do
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
 
-    resources :discounts
+    # resources :discounts
   end
+
+  get 'merchant/discounts', to: 'merchant/discounts#index', as: :merchant_discounts
+  get 'merchant/discounts/new', to: 'merchant/discounts#new', as: :new_merchant_discount
+  post 'merchant/discounts', to: 'merchant/discounts#create'
+  get 'merchant/discounts/:id', to: 'merchant/discounts#show', as: :merchant_discount
+  get 'merchant/discounts/:id/edit', to: 'merchant/discounts#edit', as: :edit_merchant_discount
+  patch 'merchant/discounts/:id', to: 'merchant/discounts#update'
+  put 'merchant/discounts/:id', to: 'merchant/discounts#update'
+  delete 'merchant/discounts/:id', to: 'merchant/discounts#destroy'
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :merchants, only: [:show, :update]
-    resources :users, only: [:index, :show]
+
+    # resources :merchants, only: [:show, :update]
+    get '/merchants/:id', to: 'merchants#show'
+    patch '/merchants/:id', to: 'merchants#update'
+
+    # resources :users, only: [:index, :show]
+    get '/users', to: 'users#index'
+    get '/users/:id', to: 'users#show'
+
     patch '/orders/:id/ship', to: 'orders#ship'
   end
 end
