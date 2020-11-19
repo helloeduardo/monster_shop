@@ -41,15 +41,22 @@ Rails.application.routes.draw do
   end
 
   get '/registration', to: 'users#new', as: :registration
-  resources :users, only: [:create, :update]
+  # resources :users, only: [:create, :update]
+  post '/users/', to: 'users#create'
+  patch '/users/:id', to: 'users#update', as: :user
+
   patch '/user/:id', to: 'users#update'
-  get '/profile', to: 'users#show'
-  get '/profile/edit', to: 'users#edit'
-  get '/profile/edit_password', to: 'users#edit_password'
+
+  scope :profile do
+    get '/', to: 'users#show', as: :profile
+    get '/edit', to: 'users#edit'
+    get '/edit_password', to: 'users#edit_password'
+    get '/orders', to: 'user/orders#index'
+    get '/orders/:id', to: 'user/orders#show'
+    delete '/orders/:id', to: 'user/orders#cancel'
+  end
+
   post '/orders', to: 'user/orders#create'
-  get '/profile/orders', to: 'user/orders#index'
-  get '/profile/orders/:id', to: 'user/orders#show'
-  delete '/profile/orders/:id', to: 'user/orders#cancel'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#login'
