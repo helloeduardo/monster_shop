@@ -64,10 +64,21 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :orders, only: :show
-    resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    # resources :orders, only: :show
+    get '/orders/:id', to: 'orders#show'
+
+    # resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    get '/items', to: 'items#index'
+    post '/items', to: 'items#create'
+    get '/items/new', to: 'items#new'
+    get '/items/:id/edit', to: 'items#edit'
+    patch '/items/:id', to: 'items#update'
+    put '/items/:id', to: 'items#update'
+    delete '/items/:id', to: 'items#destroy'
+
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
+
     resources :discounts
   end
 
